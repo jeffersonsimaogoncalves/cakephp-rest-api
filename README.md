@@ -1,17 +1,12 @@
 # RestApi plugin for CakePHP 3
 
-[![Build Status](https://travis-ci.org/multidots/cakephp-rest-api.svg?branch=master)](https://travis-ci.org/multidots/cakephp-rest-api)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/multidots/cakephp-rest-api/master/LICENSE)
-[![Total Downloads](https://poser.pugx.org/multidots/cakephp-rest-api/downloads)](https://packagist.org/packages/multidots/cakephp-rest-api)
-[![Latest Stable Version](https://poser.pugx.org/multidots/cakephp-rest-api/v/stable)](https://packagist.org/packages/multidots/cakephp-rest-api)
-
 This plugin provides basic support for building REST API services in your CakePHP 3 application. Read a detailed guide on how to implement this here - [CakePHP: Build REST APIs with RestApi plugin](http://blog.narendravaghela.com/cakephp-build-rest-apis-with-restapi-plugin-part-1/)
 
 ## Requirements
 This plugin has the following requirements:
 
-* CakePHP 3.0.0 or greater.
-* PHP 5.4.16 or greater.
+* CakePHP 3.6.0 or greater.
+* PHP 7.0 or greater.
 
 ## Installation
 You can install this plugin into your CakePHP application using [composer](http://getcomposer.org).
@@ -356,3 +351,7 @@ And the response will be,
 ```
 ## Reporting Issues
 If you have a problem with this plugin or any bug, please open an issue on [GitHub](https://github.com/multidots/cakephp-rest-api/issues).
+
+## Credits
+
+This work is based on the [code by Multidots](https://github.com/multidots/cakephp-rest-api).
