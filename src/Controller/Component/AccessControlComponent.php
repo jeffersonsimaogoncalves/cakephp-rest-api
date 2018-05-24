@@ -5,8 +5,6 @@ namespace RestApi\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Network\Exception\UnauthorizedException;
-use Cake\Network\Response;
 use Firebase\JWT\JWT;
 use RestApi\Routing\Exception\InvalidTokenException;
 use RestApi\Routing\Exception\InvalidTokenFormatException;
@@ -16,6 +14,8 @@ use RestApi\Routing\Exception\MissingTokenException;
  * Access control component class.
  *
  * Handles user authentication and permission.
+ *
+ * @package RestApi\Controller\Component
  */
 class AccessControlComponent extends Component
 {
@@ -26,7 +26,7 @@ class AccessControlComponent extends Component
      * Handles request authentication using JWT.
      *
      * @param Event $event The startup event
-     * @return Response
+     * @return \Cake\Http\Response|boolean
      */
     public function startup(Event $event)
     {
@@ -42,19 +42,17 @@ class AccessControlComponent extends Component
      *
      * @param Event $event The startup event
      * @return bool
-     * @throws UnauthorizedException If missing or invalid token
      */
     protected function _performTokenValidation(Event $event)
     {
-        $request = $event->subject()->request;
+        $request = $event->getSubject()->request;
 
-        if (!empty($request->params['allowWithoutToken']) && $request->params['allowWithoutToken']) {
+        /** @var \Cake\Http\ServerRequest $request */
+        if (!empty($request->getParam('allowWithoutToken')) && $request->getParam('allowWithoutToken')) {
             return true;
         }
 
-        $token = '';
-
-        $header = $request->header('Authorization');
+        $header = $request->getHeaderLine('Authorization');
 
         if (!empty($header)) {
             $parts = explode(' ', $header);
@@ -64,10 +62,10 @@ class AccessControlComponent extends Component
             }
 
             $token = $parts[1];
-        } elseif (!empty($this->request->query('token'))) {
-            $token = $this->request->query('token');
-        } elseif (!empty($request->data['token'])) {
-            $token = $request->data['token'];
+        } elseif (!empty($this->getController()->getRequest()->getQuery('token'))) {
+            $token = $this->getController()->getRequest()->getQuery('token');
+        } elseif (!empty($request->getData('token'))) {
+            $token = $request->getData('token');
         } else {
             throw new MissingTokenException();
         }
@@ -84,6 +82,7 @@ class AccessControlComponent extends Component
 
         $controller = $this->_registry->getController();
 
+        /** @var \RestApi\Controller\AppController $controller */
         $controller->jwtPayload = $payload;
 
         $controller->jwtToken = $token;

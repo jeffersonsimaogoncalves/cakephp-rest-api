@@ -2,27 +2,22 @@
 
 namespace RestApi\View;
 
-use Cake\Core\Exception\Exception;
 use Cake\View\View;
 
 /**
- * Api Error View
+ * Class ApiErrorView
  *
  * Default view class for error
+ *
+ * @package RestApi\View
  */
 class ApiErrorView extends View
 {
-
-    /**
-     * Initialization hook method.
-     *
-     * @return void
-     */
     public function initialize()
     {
         parent::initialize();
 
-        $this->response->type('json');
+        $this->response->withType('json');
     }
 
     /**
@@ -31,7 +26,7 @@ class ApiErrorView extends View
      * @param string|null $view Name of view file to use
      * @param string|null $layout Layout to use.
      * @return string|null Rendered content or null if content already rendered and returned earlier.
-     * @throws Exception If there is an error in the view.
+     * @throws \Cake\Core\Exception\Exception If there is an error in the view.
      */
     public function render($view = null, $layout = null)
     {

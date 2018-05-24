@@ -5,7 +5,7 @@ namespace RestApi\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * ApiRequest Entity
+ * Class ApiRequest
  *
  * @property string $id
  * @property string $http_method
@@ -19,7 +19,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
  *
- * @property \App\Model\Entity\Project $project
+ * @package RestApi\Model\Entity
  */
 class ApiRequest extends Entity
 {
@@ -35,6 +35,6 @@ class ApiRequest extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false
+        'id' => false,
     ];
 }

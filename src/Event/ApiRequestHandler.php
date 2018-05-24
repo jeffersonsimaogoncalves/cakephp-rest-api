@@ -11,6 +11,8 @@ use RestApi\Utility\ApiRequestLogger;
  * Event listner for API requests.
  *
  * This class binds the different events and performs required operations.
+ *
+ * @package RestApi\Event
  */
 class ApiRequestHandler implements EventListenerInterface
 {
@@ -42,23 +44,47 @@ class ApiRequestHandler implements EventListenerInterface
      * Handles incoming request and its data.
      *
      * @param Event $event The beforeDispatch event
+     * @return array|mixed|null
      */
     public function beforeDispatch(Event $event)
     {
         $this->buildResponse($event);
         Configure::write('requestLogged', false);
-        $request = $event->data['request'];
+        $request = $event->getData('request');
         if ('OPTIONS' === $request->method()) {
             $event->stopPropagation();
-            $response = $event->data['response'];
-            $response->statusCode(200);
+            $response = $event->getData('response');
+            $response->withStatus(200);
 
             return $response;
         }
 
-        if (empty($request->data)) {
-            $request->data = $request->input('json_decode', true);
+        if (empty($request->getData)) {
+            $request->getData = $request->input('json_decode', true);
         }
+    }
+
+    /**
+     * Prepares the response object with content type and cors headers.
+     *
+     * @param Event $event The event object either beforeDispatch or afterDispatch
+     *
+     * @return bool true
+     */
+    private function buildResponse(Event $event)
+    {
+        $request = $event->getData('request');
+        $response = $event->getData('response');
+        $response->type('json');
+        $response->cors($request)
+            ->allowOrigin(Configure::read('ApiRequest.cors.origin'))
+            ->allowMethods(Configure::read('ApiRequest.cors.allowedMethods'))
+            ->allowHeaders(Configure::read('ApiRequest.cors.allowedHeaders'))
+            ->allowCredentials()
+            ->maxAge(Configure::read('ApiRequest.cors.maxAge'))
+            ->build();
+
+        return true;
     }
 
     /**
@@ -78,36 +104,15 @@ class ApiRequestHandler implements EventListenerInterface
      */
     public function shutdown(Event $event)
     {
-        $request = $event->subject()->request;
-        if ('OPTIONS' === $request->method()) {
+        $request = $event->getSubject()->request;
+        /** @var \Cake\Http\ServerRequest $request */
+        if ('OPTIONS' === $request->getMethod()) {
             return;
         }
 
         if (!Configure::read('requestLogged') && Configure::read('ApiRequest.log')) {
-            ApiRequestLogger::log($request, $event->subject()->response);
+            ApiRequestLogger::log($request, $event->getSubject()->response);
         }
     }
 
-    /**
-     * Prepares the response object with content type and cors headers.
-     *
-     * @param Event $event The event object either beforeDispatch or afterDispatch
-     *
-     * @return bool true
-     */
-    private function buildResponse(Event $event)
-    {
-        $request = $event->data['request'];
-        $response = $event->data['response'];
-        $response->type('json');
-        $response->cors($request)
-            ->allowOrigin(Configure::read('ApiRequest.cors.origin'))
-            ->allowMethods(Configure::read('ApiRequest.cors.allowedMethods'))
-            ->allowHeaders(Configure::read('ApiRequest.cors.allowedHeaders'))
-            ->allowCredentials()
-            ->maxAge(Configure::read('ApiRequest.cors.maxAge'))
-            ->build();
-
-        return true;
-    }
 }

@@ -5,9 +5,11 @@ namespace RestApi\Model\Table;
 use Cake\ORM\Table;
 
 /**
- * ApiRequests Model
+ * Class ApiRequestsTable
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ *
+ * @package RestApi\Model\Table
  */
 class ApiRequestsTable extends Table
 {
@@ -22,8 +24,8 @@ class ApiRequestsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('api_requests');
-        $this->primaryKey('id');
+        $this->setTable('api_requests');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
     }

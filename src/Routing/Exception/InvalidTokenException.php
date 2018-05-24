@@ -5,15 +5,18 @@ namespace RestApi\Routing\Exception;
 use Cake\Core\Exception\Exception;
 
 /**
+ * Class InvalidTokenException
+ *
  * Invalid token exception - used when an authorization token
  * is invalid or blank
  *
+ * @package RestApi\Routing\Exception
  */
 class InvalidTokenException extends Exception
 {
 
     /**
-     * Constructor.
+     * InvalidTokenException constructor.
      *
      * @param string|array $message Either the string of the error message, or an array of attributes
      *   that are made available in the view, and sprintf()'d into Exception::$_messageTemplate

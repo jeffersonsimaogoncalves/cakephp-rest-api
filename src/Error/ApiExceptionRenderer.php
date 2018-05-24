@@ -4,37 +4,22 @@ namespace RestApi\Error;
 
 use Cake\Core\Configure;
 use Cake\Error\ExceptionRenderer;
-use Cake\Network\Response;
-use Exception;
 use RestApi\Controller\ApiErrorController;
-use RestApi\Routing\Exception\InvalidTokenException;
-use RestApi\Routing\Exception\InvalidTokenFormatException;
-use RestApi\Routing\Exception\MissingTokenException;
 
 /**
  * API Exception Renderer.
  *
  * Captures and handles all unhandled exceptions. Displays valid json response.
+ *
+ * @package RestApi\Error
  */
 class ApiExceptionRenderer extends ExceptionRenderer
 {
-
-    /**
-     * Returns error handler controller.
-     *
-     * @return ApiErrorController
-     */
-    protected function _getController()
-    {
-        return new ApiErrorController();
-    }
-
     /**
      * Handles MissingTokenException.
      *
-     * @param MissingTokenException $exception MissingTokenException
-     *
-     * @return type
+     * @param $exception
+     * @return \Cake\Http\Response
      */
     public function missingToken($exception)
     {
@@ -42,42 +27,17 @@ class ApiExceptionRenderer extends ExceptionRenderer
     }
 
     /**
-     * Handles InvalidTokenFormatException.
-     *
-     * @param InvalidTokenFormatException $exception InvalidTokenFormatException
-     *
-     * @return Response
-     */
-    public function invalidTokenFormat($exception)
-    {
-        return $this->__prepareResponse($exception, ['customMessage' => true]);
-    }
-
-    /**
-     * Handles InvalidTokenException.
-     *
-     * @param InvalidTokenException $exception InvalidTokenException
-     *
-     * @return Response
-     */
-    public function invalidToken($exception)
-    {
-        return $this->__prepareResponse($exception, ['customMessage' => true]);
-    }
-
-    /**
      * Prepare response.
      *
-     * @param Exception $exception Exception
-     * @param array     $options   Array of options
-     *
-     * @return Response
+     * @param \Exception $exception Exception
+     * @param array $options Array of options
+     * @return \Cake\Http\Response
      */
     private function __prepareResponse($exception, $options = [])
     {
-        $response = $this->_getController()->response;
+        $response = $this->_getController()->getResponse();
         $code = $this->_code($exception);
-        $response->statusCode($this->_code($exception));
+        $response->withStatus($this->_code($exception));
 
         Configure::write('apiExceptionMessage', $exception->getMessage());
 
@@ -93,9 +53,39 @@ class ApiExceptionRenderer extends ExceptionRenderer
             $body[$responseFormat['resultKey']][$responseFormat['errorKey']] = $exception->getMessage();
         }
 
-        $response->type('json');
-        $response->body(json_encode($body));
+        $response->withType('json');
+        $response->withStringBody(json_encode($body));
 
         return $response;
     }
+
+    /**
+     * @return \RestApi\Controller\ApiErrorController
+     */
+    protected function _getController()
+    {
+        return new ApiErrorController();
+    }
+
+    /**Handles InvalidTokenFormatException.
+     *
+     * @param \RestApi\Routing\Exception\InvalidTokenFormatException $exception InvalidTokenFormatException
+     * @return \Cake\Http\Response
+     */
+    public function invalidTokenFormat($exception)
+    {
+        return $this->__prepareResponse($exception, ['customMessage' => true]);
+    }
+
+    /**
+     * Handles InvalidTokenException.
+     *
+     * @param \RestApi\Routing\Exception\InvalidTokenException $exception InvalidTokenException
+     * @return \Cake\Http\Response
+     */
+    public function invalidToken($exception)
+    {
+        return $this->__prepareResponse($exception, ['customMessage' => true]);
+    }
+
 }

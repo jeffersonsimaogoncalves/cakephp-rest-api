@@ -5,15 +5,18 @@ namespace RestApi\Routing\Exception;
 use Cake\Core\Exception\Exception;
 
 /**
+ * Class MissingTokenException
+ *
  * Missing token exception - used when an authorization token
  * is missing
  *
+ * @package RestApi\Routing\Exception
  */
 class MissingTokenException extends Exception
 {
 
     /**
-     * Constructor.
+     * MissingTokenException constructor.
      *
      * @param string|array $message Either the string of the error message, or an array of attributes
      *   that are made available in the view, and sprintf()'d into Exception::$_messageTemplate

@@ -6,7 +6,11 @@ use Cake\Core\Configure;
 use Firebase\JWT\JWT;
 
 /**
+ * Class JwtToken
+ *
  * JWT token utility class.
+ *
+ * @package RestApi\Utility
  */
 class JwtToken
 {
