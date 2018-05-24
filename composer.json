@@ -32,7 +32,7 @@
   "require": {
     "php": ">=7.0",
     "cakephp/cakephp": "^3.6",
-    "firebase/php-jwt": "^4.0",
+    "firebase/php-jwt": ">=v4.0.0",
     "league/fractal": "0.13.0"
   },
   "autoload": {
