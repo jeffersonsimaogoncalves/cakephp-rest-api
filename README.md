@@ -13,7 +13,7 @@ You can install this plugin into your CakePHP application using [composer](http:
 
 The recommended way to install composer packages is:
 ```
-composer require multidots/cakephp-rest-api
+composer require jeffersonsimaogoncalves/cakephp-rest-api
 ```
 After installation, [Load the plugin](http://book.cakephp.org/3.0/en/plugins.html#loading-a-plugin)
 ```php
@@ -350,7 +350,7 @@ And the response will be,
 {"status":"NOK","result":{"message":"Not Found"}}
 ```
 ## Reporting Issues
-If you have a problem with this plugin or any bug, please open an issue on [GitHub](https://github.com/multidots/cakephp-rest-api/issues).
+If you have a problem with this plugin or any bug, please open an issue on [GitHub](https://github.com/jeffersonsimaogoncalves/cakephp-rest-api/issues).
 
 ## Credits
 
