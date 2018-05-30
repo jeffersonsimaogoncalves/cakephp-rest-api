@@ -91,6 +91,10 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('RestApi.AccessControl');
+
+        if ($this->request->is('json')) {
+            Configure::write('debug', false);
+        }
     }
 
     /**
