@@ -19,6 +19,7 @@ class ApiExceptionRenderer extends ExceptionRenderer
      * Handles MissingTokenException.
      *
      * @param $exception
+     *
      * @return \Cake\Http\Response
      */
     public function missingToken($exception)
@@ -30,7 +31,8 @@ class ApiExceptionRenderer extends ExceptionRenderer
      * Prepare response.
      *
      * @param \Exception $exception Exception
-     * @param array $options Array of options
+     * @param array      $options   Array of options
+     *
      * @return \Cake\Http\Response
      */
     private function __prepareResponse($exception, $options = [])
@@ -70,6 +72,7 @@ class ApiExceptionRenderer extends ExceptionRenderer
     /**Handles InvalidTokenFormatException.
      *
      * @param \RestApi\Routing\Exception\InvalidTokenFormatException $exception InvalidTokenFormatException
+     *
      * @return \Cake\Http\Response
      */
     public function invalidTokenFormat($exception)
@@ -81,6 +84,7 @@ class ApiExceptionRenderer extends ExceptionRenderer
      * Handles InvalidTokenException.
      *
      * @param \RestApi\Routing\Exception\InvalidTokenException $exception InvalidTokenException
+     *
      * @return \Cake\Http\Response
      */
     public function invalidToken($exception)

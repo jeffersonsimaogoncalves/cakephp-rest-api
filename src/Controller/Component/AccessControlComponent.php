@@ -26,6 +26,7 @@ class AccessControlComponent extends Component
      * Handles request authentication using JWT.
      *
      * @param Event $event The startup event
+     *
      * @return \Cake\Http\Response|boolean
      */
     public function startup(Event $event)
@@ -41,6 +42,7 @@ class AccessControlComponent extends Component
      * Performs token validation.
      *
      * @param Event $event The startup event
+     *
      * @return bool
      */
     protected function _performTokenValidation(Event $event)

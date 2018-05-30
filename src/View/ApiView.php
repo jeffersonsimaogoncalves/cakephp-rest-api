@@ -23,8 +23,9 @@ class ApiView extends JsonView
     /**
      * Renders api response
      *
-     * @param string|null $view Name of view file to use
+     * @param string|null $view   Name of view file to use
      * @param string|null $layout Layout to use.
+     *
      * @return string|null Rendered content or null if content already rendered and returned earlier.
      * @throws \Cake\Core\Exception\Exception If there is an error in the view.
      */

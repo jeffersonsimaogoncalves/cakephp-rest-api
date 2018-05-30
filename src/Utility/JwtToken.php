@@ -19,6 +19,7 @@ class JwtToken
      * Generates a token based on payload
      *
      * @param mixed $payload Payload data to generate token
+     *
      * @return string|bool Token or false
      */
     public static function generateToken($payload = null)

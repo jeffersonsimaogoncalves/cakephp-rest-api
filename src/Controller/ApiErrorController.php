@@ -19,6 +19,7 @@ class ApiErrorController extends AppController
      * beforeRender callback.
      *
      * @param \Cake\Event\Event $event Event.
+     *
      * @return null
      * @throws \Exception
      */
@@ -27,7 +28,9 @@ class ApiErrorController extends AppController
         $this->httpStatusCode = $this->getResponse()->getStatusCode();
 
         if (Configure::read('ApiRequest.debug') && isset($this->viewVars['error'])) {
-            $this->apiResponse[$this->responseFormat['messageKey']] = $this->viewVars['error']->getMessage();
+            $error = $this->viewVars['error'];
+            /** @var \Exception $error */
+            $this->apiResponse[$this->responseFormat['messageKey']] = $error->getMessage();
         } else {
             $this->apiResponse[$this->responseFormat['messageKey']] = !empty($messageArr[$this->httpStatusCode]) ? $messageArr[$this->httpStatusCode] : 'Unknown error!';
         }

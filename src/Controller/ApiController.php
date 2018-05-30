@@ -17,6 +17,7 @@ class ApiController extends AppController
     /**Before render callback.
      *
      * @param Event $event The beforeRender event.
+     *
      * @return \Cake\Http\Response|null
      * @throws \Exception
      */

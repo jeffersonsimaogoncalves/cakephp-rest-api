@@ -101,6 +101,7 @@ class AppController extends Controller
      * Before render callback.
      *
      * @param Event $event The beforeRender event.
+     *
      * @return \Cake\Http\Response|null
      * @throws \Exception
      */
@@ -130,6 +131,7 @@ class AppController extends Controller
 
     /**
      * @param $data
+     *
      * @return array
      * @throws \Exception
      * @throws \Exception
@@ -166,7 +168,8 @@ class AppController extends Controller
 
     /**
      * @param \League\Fractal\Manager $manager
-     * @param $var
+     * @param                         $var
+     *
      * @return array
      * @throws \Exception
      */
@@ -189,6 +192,7 @@ class AppController extends Controller
 
     /**
      * @param $var
+     *
      * @return bool|\League\Fractal\TransformerAbstract
      * @throws \Exception
      */
@@ -218,6 +222,7 @@ class AppController extends Controller
 
     /**
      * @param $var
+     *
      * @return bool|string
      */
     protected function getTransformerClass($var)

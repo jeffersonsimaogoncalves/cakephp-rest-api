@@ -22,8 +22,8 @@ class ApiRequestLogger
     /**
      * Logs the request and response data into database.
      *
-     * @param \Cake\Http\ServerRequest $request The \Cake\Network\Request object
-     * @param \Cake\Http\Response $response The \Cake\Http\Response object
+     * @param \Cake\Http\ServerRequest $request  The \Cake\Network\Request object
+     * @param \Cake\Http\Response      $response The \Cake\Http\Response object
      */
     public static function log(ServerRequest $request, Response $response)
     {

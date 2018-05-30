@@ -44,6 +44,7 @@ class ApiRequestHandler implements EventListenerInterface
      * Handles incoming request and its data.
      *
      * @param Event $event The beforeDispatch event
+     *
      * @return array|mixed|null
      */
     public function beforeDispatch(Event $event)
