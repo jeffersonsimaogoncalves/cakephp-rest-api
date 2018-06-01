@@ -14,6 +14,7 @@ use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 use RestApi\Serializer\ArraySerializer;
+use RestApi\Utility\ApiRequestLogger;
 
 /**
  * Application Controller
@@ -181,7 +182,7 @@ class AppController extends Controller
 
         if (is_array($var) || $var instanceof Query || $var instanceof ResultSet) {
             $resource = new Collection($var, $transformer);
-        } elseif ($var instanceof EntityInterface) {
+        } else if ($var instanceof EntityInterface) {
             $resource = new Item($var, $transformer);
         } else {
             throw new Exception('Unserializable variable');
@@ -230,11 +231,11 @@ class AppController extends Controller
         $entity = null;
         if ($var instanceof Query) {
             $entity = $var->repository()->newEntity();
-        } elseif ($var instanceof ResultSet) {
+        } else if ($var instanceof ResultSet) {
             $entity = $var->first();
-        } elseif ($var instanceof EntityInterface) {
+        } else if ($var instanceof EntityInterface) {
             $entity = $var;
-        } elseif (is_array($var)) {
+        } else if (is_array($var)) {
             $entity = reset($var);
         }
 
@@ -250,5 +251,15 @@ class AppController extends Controller
         }
 
         return $transformerClass;
+    }
+
+    /**
+     * @return \Cake\Http\Response|null|void
+     */
+    public function shutdownProcess()
+    {
+        ApiRequestLogger::log($this->getRequest(), $this->getResponse());
+
+        return parent::shutdownProcess();
     }
 }

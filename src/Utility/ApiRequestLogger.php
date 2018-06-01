@@ -3,6 +3,7 @@
 namespace RestApi\Utility;
 
 use Cake\Core\Configure;
+use Cake\Datasource\ConnectionManager;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\ORM\Exception\RolledbackTransactionException;
@@ -27,6 +28,10 @@ class ApiRequestLogger
      */
     public static function log(ServerRequest $request, Response $response)
     {
+        if (!self::_tableExists()) {
+            return;
+        }
+
         Configure::write('requestLogged', true);
 
         try {
@@ -48,5 +53,17 @@ class ApiRequestLogger
         } catch (Exception $e) {
             return;
         }
+    }
+
+    protected static function _tableExists()
+    {
+        $db = ConnectionManager::get('default');
+        $tables = $db->getSchemaCollection()->listTables();
+
+        if (in_array('api_requests', $tables)) {
+            return true;
+        }
+
+        return false;
     }
 }
