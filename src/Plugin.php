@@ -10,8 +10,6 @@
 namespace RestApi;
 
 use Cake\Core\BasePlugin;
-use Cake\Core\Configure;
-use Cake\Core\PluginApplicationInterface;
 use RestApi\Middleware\RestApiMiddleware;
 
 /**
@@ -33,19 +31,5 @@ class Plugin extends BasePlugin
         $middleware->add(new RestApiMiddleware());
 
         return $middleware;
-    }
-
-    /**
-     * @param \Cake\Core\PluginApplicationInterface $app
-     */
-    public function bootstrap(PluginApplicationInterface $app)
-    {
-        parent::bootstrap($app);
-        try {
-            Configure::load('RestApi.api', 'default', false);
-            Configure::load('api', 'default', true);
-        } catch (\Exception $e) {
-            // nothing
-        }
     }
 }
