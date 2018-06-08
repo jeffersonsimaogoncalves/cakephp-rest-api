@@ -35,6 +35,9 @@ class Plugin extends BasePlugin
         return $middleware;
     }
 
+    /**
+     * @param \Cake\Core\PluginApplicationInterface $app
+     */
     public function bootstrap(PluginApplicationInterface $app)
     {
         parent::bootstrap($app);
