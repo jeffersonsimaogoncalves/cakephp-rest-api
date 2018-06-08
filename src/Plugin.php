@@ -22,7 +22,6 @@ use RestApi\Middleware\RestApiMiddleware;
 class Plugin extends BasePlugin
 {
     protected $routesEnabled = false;
-    protected $consoleEnabled = false;
 
     /**
      * @param \Cake\Http\MiddlewareQueue $middleware
