@@ -2,6 +2,7 @@
 
 namespace RestApi\Model\Table;
 
+use Cake\Core\Configure;
 use Cake\ORM\Table;
 
 /**
@@ -13,6 +14,21 @@ use Cake\ORM\Table;
  */
 class ApiRequestsTable extends Table
 {
+
+    /**
+     * set connection name
+     *
+     * @return string
+     */
+    public static function defaultConnectionName()
+    {
+        $connection = Configure::read('RestApi.connection');
+        if (!empty($connection)) {
+            return $connection;
+        };
+
+        return parent::defaultConnectionName();
+    }
 
     /**
      * Initialize method
