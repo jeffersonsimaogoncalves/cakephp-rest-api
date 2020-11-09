@@ -23,8 +23,8 @@ class ApiRequestLogger
     /**
      * Logs the request and response data into database.
      *
-     * @param \Cake\Http\ServerRequest $request  The \Cake\Network\Request object
-     * @param \Cake\Http\Response      $response The \Cake\Http\Response object
+     * @param  \Cake\Http\ServerRequest  $request  The \Cake\Network\Request object
+     * @param  \Cake\Http\Response  $response  The \Cake\Http\Response object
      */
     public static function log(ServerRequest $request, Response $response)
     {
@@ -55,7 +55,10 @@ class ApiRequestLogger
         }
     }
 
-    protected static function _tableExists()
+    /**
+     * @return bool
+     */
+    protected static function _tableExists(): bool
     {
         $db = ConnectionManager::get('default');
         $tables = $db->getSchemaCollection()->listTables();

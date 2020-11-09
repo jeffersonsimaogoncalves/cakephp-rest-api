@@ -20,7 +20,7 @@ class ApiRequestsTable extends Table
      *
      * @return string
      */
-    public static function defaultConnectionName()
+    public static function defaultConnectionName(): string
     {
         $connection = Configure::read('RestApi.connection');
         if (!empty($connection)) {
@@ -33,11 +33,11 @@ class ApiRequestsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array  $config  The configuration for the Table.
      *
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 

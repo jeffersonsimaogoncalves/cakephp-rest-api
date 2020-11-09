@@ -18,7 +18,7 @@ class JwtToken
     /**
      * Generates a token based on payload
      *
-     * @param mixed $payload Payload data to generate token
+     * @param  mixed  $payload  Payload data to generate token
      *
      * @return string|bool Token or false
      */
@@ -28,8 +28,7 @@ class JwtToken
             return false;
         }
 
-        $token = JWT::encode($payload, Configure::read('ApiRequest.jwtAuth.cypherKey'), Configure::read('ApiRequest.jwtAuth.tokenAlgorithm'));
-
-        return $token;
+        return JWT::encode($payload, Configure::read('ApiRequest.jwtAuth.cypherKey'),
+            Configure::read('ApiRequest.jwtAuth.tokenAlgorithm'));
     }
 }

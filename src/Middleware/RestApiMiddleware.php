@@ -6,6 +6,7 @@ use Cake\Core\App;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Event\EventManager;
 use RestApi\Event\ApiRequestHandler;
+use Throwable;
 
 /**
  * Class RestApiMiddleware
@@ -14,20 +15,24 @@ use RestApi\Event\ApiRequestHandler;
  */
 class RestApiMiddleware extends ErrorHandlerMiddleware
 {
+    /**
+     * @var string
+     */
+    public $exceptionRenderer;
 
     /**
      * Override ErrorHandlerMiddleware and add custom exception renderer
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  The request.
-     * @param \Psr\Http\Message\ResponseInterface      $response The response.
-     * @param callable                                 $next     Callback to invoke the next middleware.
+     * @param  \Psr\Http\Message\ServerRequestInterface  $request  The request.
+     * @param  \Psr\Http\Message\ResponseInterface  $response  The response.
+     * @param  callable  $next  Callback to invoke the next middleware.
      *
      * @return \Psr\Http\Message\ResponseInterface A response
      */
     public function __invoke($request, $response, $next)
     {
         try {
-            $params = (array)$request->getAttribute('params', []);
+            $params = (array) $request->getAttribute('params', []);
             if (isset($params['controller'])) {
                 $controllerName = $params['controller'];
                 $firstChar = substr($controllerName, 0, 1);
@@ -48,7 +53,7 @@ class RestApiMiddleware extends ErrorHandlerMiddleware
             }
 
             return $next($request, $response);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return $this->handleException($e, $request, $response);
         }
     }

@@ -5,7 +5,7 @@ namespace RestApi\Controller;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\ResultSet;
 use Exception;
@@ -13,6 +13,7 @@ use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
+use Psr\Http\Message\ResponseInterface;
 use RestApi\Serializer\ArraySerializer;
 use RestApi\Utility\ApiRequestLogger;
 
@@ -73,7 +74,7 @@ class AppController extends Controller
      *
      * @throws \Exception
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 
@@ -101,12 +102,12 @@ class AppController extends Controller
     /**
      * Before render callback.
      *
-     * @param Event $event The beforeRender event.
+     * @param  \Cake\Event\EventInterface  $event  The beforeRender event.
      *
      * @return \Cake\Http\Response|null
      * @throws \Exception
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(EventInterface $event)
     {
         parent::beforeRender($event);
 
@@ -168,10 +169,10 @@ class AppController extends Controller
     }
 
     /**
-     * @param \League\Fractal\Manager $manager
-     * @param                         $var
+     * @param  \League\Fractal\Manager  $manager
+     * @param $var
      *
-     * @return array
+     * @return array|null
      * @throws \Exception
      */
     protected function transform(Manager $manager, $var)
@@ -182,10 +183,12 @@ class AppController extends Controller
 
         if (is_array($var) || $var instanceof Query || $var instanceof ResultSet) {
             $resource = new Collection($var, $transformer);
-        } else if ($var instanceof EntityInterface) {
-            $resource = new Item($var, $transformer);
         } else {
-            throw new Exception('Unserializable variable');
+            if ($var instanceof EntityInterface) {
+                $resource = new Item($var, $transformer);
+            } else {
+                throw new Exception('Unserializable variable');
+            }
         }
 
         return $manager->createData($resource)->toArray();
@@ -231,12 +234,18 @@ class AppController extends Controller
         $entity = null;
         if ($var instanceof Query) {
             $entity = $var->repository()->newEntity();
-        } else if ($var instanceof ResultSet) {
-            $entity = $var->first();
-        } else if ($var instanceof EntityInterface) {
-            $entity = $var;
-        } else if (is_array($var)) {
-            $entity = reset($var);
+        } else {
+            if ($var instanceof ResultSet) {
+                $entity = $var->first();
+            } else {
+                if ($var instanceof EntityInterface) {
+                    $entity = $var;
+                } else {
+                    if (is_array($var)) {
+                        $entity = reset($var);
+                    }
+                }
+            }
         }
 
         if (!$entity || !is_object($entity)) {
@@ -244,7 +253,7 @@ class AppController extends Controller
         }
 
         $entityClass = get_class($entity);
-        $transformerClass = str_replace('\\Model\\Entity\\', '\\Model\\Transformer\\', $entityClass) . 'Transformer';
+        $transformerClass = str_replace('\\Model\\Entity\\', '\\Model\\Transformer\\', $entityClass).'Transformer';
 
         if (!class_exists($transformerClass)) {
             return false;
@@ -256,7 +265,7 @@ class AppController extends Controller
     /**
      * @return \Cake\Http\Response|null|void
      */
-    public function shutdownProcess()
+    public function shutdownProcess(): ?ResponseInterface
     {
         ApiRequestLogger::log($this->getRequest(), $this->getResponse());
 
