@@ -5,6 +5,7 @@ namespace RestApi\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Exception;
 use Firebase\JWT\JWT;
 use RestApi\Routing\Exception\InvalidTokenException;
 use RestApi\Routing\Exception\InvalidTokenFormatException;
@@ -25,7 +26,7 @@ class AccessControlComponent extends Component
      *
      * Handles request authentication using JWT.
      *
-     * @param Event $event The startup event
+     * @param  Event  $event  The startup event
      *
      * @return \Cake\Http\Response|boolean
      */
@@ -41,7 +42,7 @@ class AccessControlComponent extends Component
     /**
      * Performs token validation.
      *
-     * @param Event $event The startup event
+     * @param  Event  $event  The startup event
      *
      * @return bool
      */
@@ -73,8 +74,9 @@ class AccessControlComponent extends Component
         }
 
         try {
-            $payload = JWT::decode($token, Configure::read('ApiRequest.jwtAuth.cypherKey'), [Configure::read('ApiRequest.jwtAuth.tokenAlgorithm')]);
-        } catch (\Exception $e) {
+            $payload = JWT::decode($token, Configure::read('ApiRequest.jwtAuth.cypherKey'),
+                [Configure::read('ApiRequest.jwtAuth.tokenAlgorithm')]);
+        } catch (Exception $ignored) {
             throw new InvalidTokenException();
         }
 

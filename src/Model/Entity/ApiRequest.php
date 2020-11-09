@@ -7,15 +7,15 @@ use Cake\ORM\Entity;
 /**
  * Class ApiRequest
  *
- * @property string          $id
- * @property string          $http_method
- * @property string          $endpoint
- * @property string          $token
- * @property string          $ip_address
- * @property string          $request_data
- * @property int             $response_code
- * @property string          $response_data
- * @property string          $exception
+ * @property string $id
+ * @property string $http_method
+ * @property string $endpoint
+ * @property string $token
+ * @property string $ip_address
+ * @property string $request_data
+ * @property int $response_code
+ * @property string $response_data
+ * @property string $exception
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
  *

@@ -4,6 +4,7 @@ namespace RestApi\Controller;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Event\EventInterface;
 
 /**
  * Api error controller
@@ -18,12 +19,12 @@ class ApiErrorController extends AppController
     /**
      * beforeRender callback.
      *
-     * @param \Cake\Event\Event $event Event.
+     * @param \Cake\Event\EventInterface $event Event.
      *
      * @return null
      * @throws \Exception
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(EventInterface $event)
     {
         $this->httpStatusCode = $this->getResponse()->getStatusCode();
 

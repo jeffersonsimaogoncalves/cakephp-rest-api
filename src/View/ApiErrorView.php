@@ -13,7 +13,12 @@ use Cake\View\View;
  */
 class ApiErrorView extends View
 {
-    public function initialize()
+    /**
+     * @var boolean
+     */
+    private $hasRendered;
+
+    public function initialize(): void
     {
         parent::initialize();
 
@@ -23,16 +28,16 @@ class ApiErrorView extends View
     /**
      * Renders custom api error view
      *
-     * @param string|null $view   Name of view file to use
-     * @param string|null $layout Layout to use.
+     * @param  string|null  $template  Name of view file to use
+     * @param  string|null  $layout  Layout to use.
      *
      * @return string|null Rendered content or null if content already rendered and returned earlier.
      * @throws \Cake\Core\Exception\Exception If there is an error in the view.
      */
-    public function render($view = null, $layout = null)
+    public function render(?string $template = null, $layout = null): string
     {
         if ($this->hasRendered) {
-            return null;
+            return '';
         }
 
         $this->layout = 'RestApi.error';

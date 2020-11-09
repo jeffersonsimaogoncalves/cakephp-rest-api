@@ -22,7 +22,7 @@ class ApiRequestHandler implements EventListenerInterface
      *
      * @return array
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Dispatcher.beforeDispatch' => [
@@ -43,7 +43,7 @@ class ApiRequestHandler implements EventListenerInterface
     /**
      * Handles incoming request and its data.
      *
-     * @param Event $event The beforeDispatch event
+     * @param  Event  $event  The beforeDispatch event
      *
      * @return array|mixed|null
      */
@@ -68,7 +68,7 @@ class ApiRequestHandler implements EventListenerInterface
     /**
      * Prepares the response object with content type and cors headers.
      *
-     * @param Event $event The event object either beforeDispatch or afterDispatch
+     * @param  Event  $event  The event object either beforeDispatch or afterDispatch
      *
      * @return bool true
      */
@@ -91,7 +91,7 @@ class ApiRequestHandler implements EventListenerInterface
     /**
      * Updates response headers.
      *
-     * @param Event $event The afterDispatch event
+     * @param  Event  $event  The afterDispatch event
      */
     public function afterDispatch(Event $event)
     {
@@ -101,7 +101,7 @@ class ApiRequestHandler implements EventListenerInterface
     /**
      * Logs the request and response data into database.
      *
-     * @param Event $event The shutdown event
+     * @param  Event  $event  The shutdown event
      */
     public function shutdown(Event $event)
     {

@@ -2,6 +2,7 @@
 
 namespace RestApi\Error;
 
+use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Error\ExceptionRenderer;
 use RestApi\Controller\ApiErrorController;
@@ -30,8 +31,8 @@ class ApiExceptionRenderer extends ExceptionRenderer
     /**
      * Prepare response.
      *
-     * @param \Exception $exception Exception
-     * @param array      $options   Array of options
+     * @param  \Exception  $exception  Exception
+     * @param  array  $options  Array of options
      *
      * @return \Cake\Http\Response
      */
@@ -64,14 +65,14 @@ class ApiExceptionRenderer extends ExceptionRenderer
     /**
      * @return \RestApi\Controller\ApiErrorController
      */
-    protected function _getController()
+    protected function _getController(): Controller
     {
         return new ApiErrorController();
     }
 
     /**Handles InvalidTokenFormatException.
      *
-     * @param \RestApi\Routing\Exception\InvalidTokenFormatException $exception InvalidTokenFormatException
+     * @param  \RestApi\Routing\Exception\InvalidTokenFormatException  $exception  InvalidTokenFormatException
      *
      * @return \Cake\Http\Response
      */
@@ -83,7 +84,7 @@ class ApiExceptionRenderer extends ExceptionRenderer
     /**
      * Handles InvalidTokenException.
      *
-     * @param \RestApi\Routing\Exception\InvalidTokenException $exception InvalidTokenException
+     * @param  \RestApi\Routing\Exception\InvalidTokenException  $exception  InvalidTokenException
      *
      * @return \Cake\Http\Response
      */
